@@ -55,8 +55,8 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 ENV ServiceDefaults__BaseAddress=http://+:80
 
 # Set up healthcheck
-HEALTHCHECK --interval=30s --timeout=3s \
-    CMD curl -f http://localhost:80/health || exit 1
+#HEALTHCHECK --interval=30s --timeout=3s \
+    #CMD curl -f http://localhost:80/health || exit 1
 
 # Expose port
 EXPOSE 80
