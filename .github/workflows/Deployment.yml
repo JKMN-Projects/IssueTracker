@@ -13,7 +13,6 @@ on:
 
 jobs: 
   deployment: 
-    needs: build-and-test
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true 
     steps: 
