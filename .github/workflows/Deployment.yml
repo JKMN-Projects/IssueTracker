@@ -1,0 +1,53 @@
+name: IssueTracker deployment
+
+run-name: Deployment by @${{ github.actor }}
+
+on: 
+  # push: 
+  #   branches: ["main"]
+  pull_request: 
+    branches: 
+      - 'main'
+    types: 
+      - closed # the if statement in the deployment job makes sure that this only applies to pull requests that are merged into main
+
+jobs: 
+  build-and-test: 
+    name: Checkout code
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true 
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build project
+        run: dotnet build
+
+      - name: Run tests
+        run: dotnet test --nobuild
+
+  deployment: 
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Lowercase docker names
+        run: | 
+          echo "GIT_ACTOR=${{ lower(github.actor) }}" >> $GITHUB_ENV 
+          echo "GIT_REPO=${{ lower(github.repository) }}" >> $GITHUB_ENV
+
+      - name: Login to GitHub
+        uses: docker/login-action@v3
+        with: 
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+      uses: docker/build-push-action@v6
+      with: 
+        context: .
+        push: true
+        file: Dockerfile
+        tags: |
+          ghcr.io/${{ env.GIT_REPO }}:latest 
+          ghcr.io/${{ env.GIT_REPO }}:${{ github.run_number }}-${{ github.sha::10 }}
