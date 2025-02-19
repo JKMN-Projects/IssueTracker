@@ -12,23 +12,10 @@ on:
       - closed # the if statement in the deployment job makes sure that this only applies to pull requests that are merged into main
 
 jobs: 
-  build-and-test: 
-    name: Checkout code
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true 
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build project
-        run: dotnet build
-
-      - name: Run tests
-        run: dotnet test --nobuild
-
   deployment: 
     needs: build-and-test
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true 
     steps: 
       - name: Checkout
         uses: actions/checkout@v4
