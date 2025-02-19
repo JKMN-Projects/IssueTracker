@@ -30,6 +30,9 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Lowercase docker names
         run: | 
           echo "GIT_ACTOR=${{ lower(github.actor) }}" >> $GITHUB_ENV 
