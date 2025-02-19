@@ -43,11 +43,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-      uses: docker/build-push-action@v6
-      with: 
-        context: .
-        push: true
-        file: Dockerfile
-        tags: |
-          ghcr.io/${{ env.GIT_REPO }}:latest 
-          ghcr.io/${{ env.GIT_REPO }}:${{ github.run_number }}-${{ github.sha::10 }}
+        uses: docker/build-push-action@v6
+        with: 
+          context: .
+          push: true
+          file: Dockerfile
+          tags: |
+            ghcr.io/${{ env.GIT_REPO }}:latest 
+            ghcr.io/${{ env.GIT_REPO }}:${{ github.run_number }}-${{ github.sha::10 }}
