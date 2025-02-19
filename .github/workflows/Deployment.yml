@@ -1,6 +1,6 @@
 name: IssueTracker deployment
 
-run-name: Deployment ${{ github.run_number }} by @${{ github.actor }}
+run-name: Deployment ${{ github.run_number }} by ${{ github.actor }}
 
 on: 
   # push: 
