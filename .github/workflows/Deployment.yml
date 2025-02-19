@@ -34,9 +34,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with: 
-          context: ./src/IssueTracker.MVC/
+          context: .
           push: true
-          file: Dockerfile
+          file: ./src/IssueTracker.MVC/Dockerfile
           tags: |
             ghcr.io/${{ env.GIT_REPO }}:latest 
             ghcr.io/${{ env.GIT_REPO }}:${{ github.run_number }}-${{ env.GIT_SHA }}
